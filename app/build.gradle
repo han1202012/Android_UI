@@ -1,0 +1,96 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+android {
+    compileSdkVersion 31
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        applicationId "kim.hsl.android_ui"
+        minSdkVersion 18
+        targetSdkVersion 31
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    // 定义扩展属性 , 其中的变量对所有子项目可见
+    /*ext {
+        hello3 = 'Hello World1!3'
+    }*/
+}
+
+dependencies {
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+}
+
+
+/**
+ * 自定义任务类
+ */
+class MyTask extends DefaultTask {
+
+    @Input
+    @Optional
+    String input
+
+    @OutputFile
+    String output
+
+    MyTask() {
+        // 设置该任务属于 MyTaskGroup 分组
+        group 'MyTaskGroup'
+        description 'MyTask Description'
+    }
+
+    /**
+     * 使用 @TaskAction 注解指定任务需要执行的方法
+     */
+    @TaskAction
+    void run() {
+        println 'MyTask'
+    }
+}
+
+/*
+    生成自定义 Gradle 任务
+ */
+task myTask(type: MyTask){
+    //input = 'hello'
+    output = 'out.txt'
+}
+
+apply plugin: MyPlugin
+
+myplugin {
+    name 'Tom'
+    age 18
+    mypluginextension {
+        name 'Jerry'
+        age 19
+    }
+}
