@@ -48,49 +48,36 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }
 
-
-/**
- * 自定义任务类
- */
-class MyTask extends DefaultTask {
-
-    @Input
-    @Optional
-    String input
-
-    @OutputFile
-    String output
-
-    MyTask() {
-        // 设置该任务属于 MyTaskGroup 分组
-        group 'MyTaskGroup'
-        description 'MyTask Description'
-    }
-
-    /**
-     * 使用 @TaskAction 注解指定任务需要执行的方法
-     */
-    @TaskAction
-    void run() {
-        println 'MyTask'
-    }
-}
-
-/*
-    生成自定义 Gradle 任务
- */
-task myTask(type: MyTask){
-    //input = 'hello'
-    output = 'out.txt'
-}
-
 apply plugin: MyPlugin
 
 myplugin {
     name 'Tom'
     age 18
+
+    // 调用在扩展中定义的方法
+    // 打印 'MyPluginExtensions extensionFun'
+    extensionFun()
+
+    // 调用 扩展中 带参数的方法
+    extensionFun 'Hello'
+
     mypluginextension {
         name 'Jerry'
         age 19
     }
 }
+
+// 在 build.gradle 中定义 Gradle 插件
+class MyPlugin2 implements Plugin<Project> {
+
+    @Override
+    void apply(Project project) {
+        println 'MyPlugin2'
+    }
+}
+
+// 引入在本文件中定义的 Gradle 插件
+apply plugin: MyPlugin2
+
+// 该操作相当于将 plugin.gradle 文件拷贝到此处
+apply from: 'plugin.gradle'

@@ -1,0 +1,10 @@
+class MyPlugin3 implements Plugin<Project> {
+
+    @Override
+    void apply(Project project) {
+        println 'MyPlugin3'
+    }
+}
+
+// 引入在 plugin.gradle 中定义的 MyPlugin3 插件
+apply plugin: MyPlugin3

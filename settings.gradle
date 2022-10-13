@@ -1,2 +1,3 @@
 rootProject.name = "Android_UI"
 include ':app'
+include ':Plugin'
