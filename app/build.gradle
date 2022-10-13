@@ -1,7 +1,19 @@
+buildscript {
+    repositories {
+        mavenLocal()    // 依赖本地 Maven 仓库
+    }
+    dependencies {
+        classpath "kim.hsl.plugin:plugin:0.1" // 依赖本地 Maven 仓库下的插件
+    }
+}
+
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
 }
+
+//apply plugin: 'kim.hsl.plugin'
+
 
 android {
     compileSdkVersion 31
@@ -81,4 +93,7 @@ apply plugin: MyPlugin2
 
 // 该操作相当于将 plugin.gradle 文件拷贝到此处
 apply from: 'plugin.gradle'
+
+
+
 
