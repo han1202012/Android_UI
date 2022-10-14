@@ -12,7 +12,7 @@ plugins {
     id 'kotlin-android'
 }
 
-//apply plugin: 'kim.hsl.plugin'
+apply plugin: 'kim.hsl.plugin'
 
 
 android {
