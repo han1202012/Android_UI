@@ -29,6 +29,41 @@ version '0.1'
 // 用于将 插件上传到 远程仓库 或者 本地仓库 中
 apply plugin: 'maven-publish'
 
+// 自定义源码打包任务
+// 自定义 Jar 类型的 Gradle 任务
+// 将源码打包到 jar 包中
+task sources2Jar(type: Jar) {
+    // 指明要打的 jar 包名称
+    // 最终打包的名称是 plugin-0.1-sources.jar
+    baseName 'plugin'
+    // 指定分类器 , 与其它 jar 包进行区分
+    classifier 'sources'
+    // 设置打包哪些文件
+    // 这里设置的是 main 目录下的所有文件
+    from sourceSets.main.allSource
+}
+
+// 自定义文档打包任务
+// 自定义 Jar 类型的 Gradle 任务
+// 将文档打包到 jar 包中
+task document2Jar(type: Jar, dependsOn: [javadoc, groovydoc]) {
+    // 指明要打的 jar 包名称
+    // 最终打包的名称是 plugin-0.1-doc.jar
+    baseName 'plugin'
+    // 指定分类器 , 与其它 jar 包进行区分
+    classifier 'doc'
+    // 设置打包哪些文件
+    // 这里设置的是 javadoc 和 groovydoc 任务的输出目录
+    from javadoc.destinationDir, groovydoc.destinationDir
+}
+
+// 配置 工程工件 对应的 jar 包产出 配置
+// 这里将 文档打包 和 源码打包 后的 jar 包作为输出
+artifacts {
+    archives sources2Jar
+    archives document2Jar
+}
+
 // 发布到 远程/本地仓库 相关配置
 publishing {
     publications {
@@ -40,6 +75,11 @@ publishing {
 
             // 指定自定义 Gradle 插件名称
             artifactId 'plugin'
+
+            // 上传源码
+            artifact sources2Jar
+            // 上传文档
+            artifact document2Jar
         }
     }
 }
